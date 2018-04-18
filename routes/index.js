@@ -41,6 +41,9 @@ router.post('/updateInventory',function (request,response) {
         if (count>0){
             response.send({validity:true});
         }
+        else {
+            response.send({validity:false});
+        }
     });
 
 });
