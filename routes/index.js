@@ -18,31 +18,37 @@ router.get('/FoodItems',function (req,res,next) {
 });
 
 //add a new Item to intentory
-router.post('/addInventory',function (request,response) {
+router.get('/addInventory',function (req,res,next) {
+    if ((req.body.name!=null)&&(req.body.name!=null)&&(req.body.name!=null)){
     var inventoryItem= new InventoryItem({
-        name:request.body.name,
-        quantity:request.body.quantity,
-        stockMin:request.body.stockMin
+        name:req.body.name,
+        quantity:req.body.quantity,
+        stockMin:req.body.stockMin
 
     });
-   inventoryItem.save(function (err) {
+    console.log("init the inven");
+    inventoryItem.save(function (err,result) {
        if (err){
-           throw err;
+           //throw err;
+           res.send({validity: false});
        }
        else {
-           response.send({validity:true});
+           res.send({validity:true});
        }
-   });
+   });}
+   else{
+        res.send({validity:'Not complete form'});
+    }
 });
 
 //update a item in inventory
-router.post('/updateInventory',function (request,response) {
+router.get('/updateInventory',function (req,res,next) {
     InventoryItem.count( {name:request.body.name}, function (err, count){
         if (count>0){
-            response.send({validity:true});
+            res.send({validity:true});
         }
         else {
-            response.send({validity:false});
+            res.send({validity:false});
         }
     });
 
