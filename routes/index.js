@@ -17,9 +17,18 @@ router.get('/FoodItems',function (req,res,next) {
  });
 });
 
+
+// get Inventory
+router.get('/GetInventory',function (req,res,next) {
+    InventoryItem.find(function (err,InventoryItems) {
+        res.send(InventoryItems);
+    });
+
+});
+
 //add a new Item to intentory
 router.get('/addInventory',function (req,res,next) {
-    if ((req.body.name!=null)&&(req.body.name!=null)&&(req.body.name!=null)){
+    if ((req.body.name!=null)&&(req.body.quantity!=null)&&(req.body.stockMin!=null)){
     var inventoryItem= new InventoryItem({
         name:req.body.name,
         quantity:req.body.quantity,
@@ -30,14 +39,14 @@ router.get('/addInventory',function (req,res,next) {
     inventoryItem.save(function (err,result) {
        if (err){
            //throw err;
-           res.send({validity: false});
+           res.json({'validity': 'false'});
        }
        else {
-           res.send({validity:true});
+           res.json({'validity':'true'});
        }
    });}
    else{
-        res.send({validity:'Not complete form'});
+        res.json({'validity':'Not complete form'});
     }
 });
 
